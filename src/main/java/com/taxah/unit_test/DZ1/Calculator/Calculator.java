@@ -1,5 +1,7 @@
 package com.taxah.unit_test.DZ1.Calculator;
+
 import static org.assertj.core.api.Assertions.*;
+
 public class Calculator {
     public static double calculation(double firstOperand, double secondOperand, char operator) {
         double result;
@@ -34,14 +36,23 @@ public class Calculator {
         //  Отрицательные числа
         //  Дробные значения корней
         //  Целые
-            if(num < 0) {
-                throw new IllegalArgumentException("Cannot calculate square root of a negative number");
-            }
-            return Math.sqrt(num);
+        if (num < 0) {
+            throw new IllegalArgumentException("Cannot calculate square root of a negative number");
+        }
+        return Math.sqrt(num);
     }
 
     // Нужно написать в калькуляторе метод вычисления суммы покупки со скидкой и проверить его, используя AssertJ
     // Примерная сигнатура и тело метода:
+
+    /**
+     * Calculates the discounted price based on the original purchase amount and the provided discount percentage.
+     *
+     * @param purchaseAmount The original price of the purchase.
+     * @param discountAmount The discount percentage to be applied (between 0 and 75).
+     * @return The discounted price after applying the specified discount.
+     * @throws ArithmeticException If the price or discount is invalid, or if the intermediate calculation exceeds 100.
+     */
     public static double calculatingDiscount(double purchaseAmount, int discountAmount) {
         assertThat(purchaseAmount).withFailMessage("Price is too low").isGreaterThan(0);
         assertThat(discountAmount)
@@ -49,12 +60,12 @@ public class Calculator {
                 .isGreaterThan(0).isLessThanOrEqualTo(75);
         try {
             assertThat(calculation(purchaseAmount, discountAmount, '*')).isGreaterThan(100);
-        }catch (AssertionError e){
+        } catch (AssertionError e) {
             throw new ArithmeticException("Price * discount ->" + e.getMessage());
         }
-        return calculation(purchaseAmount,(
+        return calculation(purchaseAmount, (
                 calculation((
-                                calculation(purchaseAmount,  discountAmount, '*')),
-                        100.0,'/')),'-'); // this equal: price-((price*discount)/100)
+                                calculation(purchaseAmount, discountAmount, '*')),
+                        100.0, '/')), '-'); // this equal: price-((price*discount)/100)
     }
 }
